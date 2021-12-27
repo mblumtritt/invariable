@@ -1,5 +1,5 @@
 --readme README.md
---title 'tcp-client Documentation'
+--title 'Invariable Documentation'
 --charset utf-8
 --markup markdown
 lib/**/*.rb - LICENSE
