@@ -36,12 +36,12 @@ module Invariable
     # @!method attributes(*names, **defaults)
     #   Defines new attributes
     #   @param names [Array<Symbol>] attribute names
-    #   @param defaults [Hash<Symbol,Object|Class>] attribute names with default
+    #   @param defaults [{Symbol => Object, Class}] attribute names with default
     #     values
-    #   @return [Array<Symbols>] names of defined attributes
+    #   @return [Array<Symbol>] names of defined attributes
     #
     # @!method member?(name)
-    #   @return [Boolean] wheter the given name is a valid attribute name for
+    #   @return [Boolean] whether the given name is a valid attribute name for
     #     this class
     #
 
@@ -77,7 +77,7 @@ module Invariable
     #     Person.members #=> [:name, :last_name, :city, :zip, :street]
     #
     # @param names [Array<Symbol>] attribute names
-    # @param defaults [Hash<Symbol,Object|Class>] attribute names with default
+    # @param defaults [{Symbol => Object, Class}] attribute names with default
     #   values
     # @yieldparam new_class [Class] the created class
     #
@@ -128,7 +128,7 @@ module Invariable
   # This means that the given object needs to implement the same attributes and
   # all it's attribute values have to be equal.
   #
-  # @return [Boolean] wheter the attribute values are equal
+  # @return [Boolean] whether the attribute values are equal
   #
   def ==(other)
     @__attr__.each_pair do |k, v|
@@ -223,7 +223,7 @@ module Invariable
   # Compares its class and all attributes of itself with the class and
   # attributes of a given other Object.
   #
-  # @return [Boolean] wheter the classes and each attribute value are equal
+  # @return [Boolean] whether the classes and each attribute value are equal
   #
   # @see ==
   #
@@ -246,7 +246,7 @@ module Invariable
   alias to_s inspect
 
   #
-  # @return [Boolean] wheter the given name is a valid attribute name
+  # @return [Boolean] whether the given name is a valid attribute name
   #
   def member?(name)
     @__attr__.key?(name)
@@ -284,10 +284,10 @@ module Invariable
 
   #
   # @overload to_h
-  #   @return [Hash<Symbol,Object>] names and values of all attributes
+  #   @return [{Symbol => Object}] names and values of all attributes
   #
   # @overload to_h(compact: true)
-  #   @return [Hash<Symbol,Object>] names and values of all attributes which
+  #   @return [{Symbol => Object}] names and values of all attributes which
   #     are not `nil` and which are not empty Invariable results
   #
   # @overload to_h(&block)
@@ -297,7 +297,7 @@ module Invariable
   #   @yieldparam [Object] value the attribute value
   #   @yieldreturn [Array<Symbol,Object>] the pair to be stored in the result
   #
-  #   @return [Hash<Object,Object>] pairs returned by the `block`
+  #   @return [{Object => Object}] pairs returned by the `block`
   #
   def to_h(compact: false, &block)
     return to_compact_h if compact
@@ -318,7 +318,7 @@ module Invariable
   end
 
   #
-  # @return [Array<Object>] Array whose elements are the atttributes of self at
+  # @return [Array<Object>] Array whose elements are the attributes of self at
   #   the given Integer indexes
   def values_at(...)
     @__attr__.values.values_at(...)
