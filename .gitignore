@@ -1,6 +1,5 @@
 tmp/
 pkg/
-local/
 doc/
 .yardoc/
-gems.locked
+Gemfile.lock
