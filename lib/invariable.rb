@@ -233,7 +233,7 @@ module Invariable
 
   # @!visibility private
   def hash
-    (to_a << self.class).hash
+    @__hash__ ||= (to_a << self.class).hash
   end
 
   #
@@ -308,7 +308,7 @@ module Invariable
   #
   # Updates all given attributes.
   #
-  # @return [Invariable] a new updated instance of itself
+  # @return [Invariable] a new updated instance
   def update(attributes)
     opts = {}
     @__attr__.each_pair do |k, v|
