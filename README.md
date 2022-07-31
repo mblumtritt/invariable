@@ -7,7 +7,7 @@ An Invariable can be created explicitly as a Class like a Struct. Or existing cl
 
 - Gem: [rubygems.org](https://rubygems.org/gems/invariable)
 - Source: [github.com](https://github.com/mblumtritt/invariable)
-- Help: [rubydoc.info](https://rubydoc.info/github/mblumtritt/invariable/main/index)
+- Help: [rubydoc.info](https://rubydoc.info/gems/invariable)
 
 ## Sample
 
@@ -34,13 +34,13 @@ john.dig(:address, :city) #=> "Anytown"
 
 ```
 
-For more samples see [the samples dir](https://github.com/mblumtritt/invariable/tree/main/samples)
+For more samples see [the samples dir](./examples)
 
 ## Installation
 
-Use [Bundler](http://gembundler.com/) to use TCPClient in your own project:
+Use [Bundler](http://gembundler.com/) to use Invariiable in your own project:
 
-Add to your `Gemfile`:
+Include in your `Gemfile`:
 
 ```ruby
 gem 'invariable'
