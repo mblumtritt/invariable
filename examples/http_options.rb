@@ -52,15 +52,13 @@ class HTTPOptions
     result = super(compact: true)
 
     # flatten the SSL options:
-    ssl = result.delete(:ssl)
+    ssl = result[:ssl]
     if ssl
-      # prefix two options:
-      ssl[:ssl_timeout] = ssl.delete(:timeout) if ssl.key?(:timeout)
-      ssl[:ssl_version] = ssl.delete(:version) if ssl.key?(:version)
-      result.merge!(ssl)
-
       # automagic :)
       result[:use_ssl] = true
+      # prefix two options:
+      result[:ssl_timeout] = ssl.delete(:timeout) if ssl.key?(:timeout)
+      result[:ssl_version] = ssl.delete(:version) if ssl.key?(:version)
     end
 
     # flatten the proxy options and prefix the keys
@@ -84,6 +82,7 @@ sample =
       min_version: :TLS1_2
     },
     proxy: {
+      port: 8080,
       from_env: true
     }
   )
