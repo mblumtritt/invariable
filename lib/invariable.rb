@@ -162,6 +162,11 @@ module Invariable
   end
 
   # @!visibility private
+  def deconstruct
+    @__attr__.values
+  end
+
+  # @!visibility private
   def deconstruct_keys(...)
     @__attr__.deconstruct_keys(...)
   end
@@ -195,9 +200,7 @@ module Invariable
   #   @return [Enumerator]
   #
   def each(&block)
-    return to_enum(__method__) unless block
-    @__attr__.each_value(&block)
-    self
+    block ? @__attr__.each_value(&block) : to_enum(__method__)
   end
 
   #
@@ -214,9 +217,7 @@ module Invariable
   #   @return [Enumerator]
   #
   def each_pair(&block)
-    return to_enum(__method__) unless block
-    @__attr__.each_pair(&block)
-    self
+    block ? @__attr__.each_pair(&block) : to_enum(__method__)
   end
 
   #
@@ -233,7 +234,7 @@ module Invariable
 
   # @!visibility private
   def hash
-    @__hash__ ||= (to_a << self.class).hash
+    @__hash__ ||= (@__attr__.values << self.class).hash
   end
 
   #
@@ -277,11 +278,6 @@ module Invariable
   end
   alias values to_a
 
-  # @!visibility private
-  def deconstruct
-    @__attr__.values
-  end
-
   #
   # @overload to_h
   #   @return [{Symbol => Object}] names and values of all attributes
@@ -300,8 +296,8 @@ module Invariable
   #   @return [{Object => Object}] pairs returned by the `block`
   #
   def to_h(compact: false, &block)
-    return to_compact_h if compact
     return Hash[@__attr__.map(&block)] if block
+    return __to_compact_h if compact
     @__attr__.transform_values { |v| v.is_a?(Invariable) ? v.to_h : v }
   end
 
@@ -326,7 +322,7 @@ module Invariable
 
   private
 
-  def to_compact_h
+  def __to_compact_h
     result = {}
     @__attr__.each_pair do |key, value|
       next if value.nil?
@@ -367,8 +363,10 @@ module Invariable
       if method_defined?(name)
         raise(NameError, "attribute already defined - #{name}", caller(4))
       end
-      define_method(name) { @__attr__[name] }
       @__attr__[name] = default.is_a?(Class) ? default : default.dup.freeze
+      # accessing "eval-ed" methods is faster than accessing methods defined
+      # via #define_method :/
+      class_eval("def #{name};@__attr__[:#{name}];end")
       name
     end
 
