@@ -237,14 +237,14 @@ module Invariable
     @__hash__ ||= (@__attr__.values << self.class).hash
   end
 
-  #
-  # @return [String] description of itself as a string
-  #
+  alias __to_s to_s
+  private :__to_s
+
+  # @!visibility private
   def inspect
     attributes = @__attr__.map { |k, v| "#{k}: #{v.inspect}" }
-    "<#{self.class}::#{__id__} #{attributes.join(', ')}>"
+    "#{__to_s[..-2]} #{attributes.join(', ')}>"
   end
-  alias to_s inspect
 
   #
   # @return [Boolean] whether the given name is a valid attribute name
@@ -372,10 +372,9 @@ module Invariable
 
     def __attr__init
       if superclass.instance_variable_defined?(:@__attr__)
-        Hash[superclass.instance_variable_get(:@__attr__)]
-      else
-        {}.compare_by_identity
+        return Hash[superclass.instance_variable_get(:@__attr__)]
       end
+      {}.compare_by_identity
     end
   end
   private_constant(:InvariableClassMethods)

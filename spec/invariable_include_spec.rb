@@ -28,7 +28,7 @@ RSpec.describe 'include Invariable' do
 
   it 'ignores unknown attributes' do
     expect {
-      invariable.new(foo: 42, last_name: 'Doe', ignored: true)
+      invariable.new(foo: 42, last_name: 'Doe', ignored: 'yes!')
     }.not_to raise_error
   end
 
@@ -82,7 +82,7 @@ RSpec.describe 'include Invariable' do
 
     it 'ignores unknown attributes' do
       expect {
-        invariable.new(foo: 42, city: 'Anytown', ignored: true)
+        invariable.new(foo: 42, city: 'Anytown', ignored: 'yes!')
       }.not_to raise_error
     end
 
